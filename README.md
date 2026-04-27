@@ -1,61 +1,105 @@
-# Customer Churn Prediction
+📌 Customer Churn Prediction
 
-# Overview
-This project predicts whether a telecom customer is likely to churn (leave the service) based on their demographic, service usage, and billing information.
+🔍 Overview
 
-The goal is to identify high-risk customers early so that businesses can take preventive actions.
+This project predicts whether a telecom customer is likely to churn (leave the service) using machine learning.
 
----
+Instead of relying on a single algorithm, multiple models are trained and compared. The best model is selected based on performance metrics.
 
-# Dataset
-- Source: IBM Telco Customer Churn Dataset  
-- Records: ~7000 customers  
-- Target Variable: Churn (Yes / No)
+The goal is to help businesses identify high-risk customers early and improve retention strategies.
 
----
+⸻
 
-# Key Insights from EDA
-- Customers with month-to-month contracts have the highest churn rate  
-- Low tenure (new customers) are more likely to churn  
-- Lack of TechSupport and OnlineSecurity increases churn  
-- High monthly charges correlate with higher churn  
-- Features like gender and phone service have minimal impact  
+📊 Dataset
 
----
+* Source: IBM Telco Customer Churn Dataset
+* Records: ~7000 customers
+* Target Variable: Churn (Yes / No)
 
-# Feature Engineering
-Based on EDA, the following features were created:
+⸻
 
-- tenure_group → customer lifecycle segmentation  
-- AvgMonthlySpend → spending behavior  
-- HighRisk_Contract → month-to-month indicator  
-- NoSupport → lack of security + tech support  
-- FiberUser → high-risk internet category  
+🧠 Key Insights from EDA
 
-These features help the model capture real churn patterns.
+* Month-to-month contracts → highest churn
+* Low tenure customers → more likely to churn
+* No Tech Support & Online Security → high churn risk
+* High Monthly Charges → increased churn probability
+* Features like gender and phone service → minimal impact
 
----
+⸻
 
-# Model
-- Algorithm: Random Forest Classifier  
-- Pipeline:
-  - Numerical features → StandardScaler  
-  - Categorical features → OneHotEncoder  
-- Class imbalance handled using:
-  - class_weight = "balanced"
+⚙️ Feature Engineering
 
----
+Derived from EDA insights:
 
-# Evaluation Metrics
-- Accuracy  
-- ROC-AUC Score  
-- Precision / Recall (for churn detection)
+* tenure_group → customer lifecycle segmentation
+* HighRisk_Contract → identifies month-to-month users
+* NoSupport → no tech support + no security
+* FiberUser → fiber internet risk indicator
 
-Note: The model focuses on detecting churn patterns rather than memorizing exact dataset labels.
+These features improve model understanding of churn behavior.
 
----
+⸻
 
-# Project Structure
+🤖 Models Used
+
+The project implements and compares three models:
+
+* Logistic Regression
+* Random Forest
+* XGBoost
+
+All models are trained using the same preprocessing pipeline for fair comparison.
+
+⸻
+
+🏆 Model Selection
+
+Models are evaluated using:
+
+* ROC-AUC (primary metric)
+* Accuracy
+* Precision
+* Recall
+* F1 Score
+
+👉 The best model is selected based on highest ROC-AUC score
+
+🏗️ Pipeline Architecture
+
+* Numerical features → StandardScaler
+* Categorical features → OneHotEncoder
+* Combined using → ColumnTransformer
+* Full workflow managed using → Pipeline
+
+This ensures consistent preprocessing during both training and prediction.
+
+⸻
+
+⚖️ Handling Class Imbalance
+
+* Logistic & Random Forest → class_weight = "balanced"
+* XGBoost → scale_pos_weight
+
+This improves detection of churn cases.
+
+⸻
+
+🌐 Web Application
+
+A Flask-based UI allows users to:
+
+* Input customer details
+* Predict churn probability
+* View:
+    * Stay %
+    * Churn %
+* See risk level:
+    * Low
+    * Medium
+    * High
+
+📁 Project Structure
 Customer-Churn-Prediction/
 │
 ├── templates/
@@ -67,54 +111,29 @@ Customer-Churn-Prediction/
 ├── WA_Fn-UseC_-Telco-Customer-Churn.csv
 └── README.md
 
----
+⚠️ Limitations
 
-# Web Application
-A Flask-based web app allows users to:
-- Input customer details  
-- Get churn prediction  
-- View probability of:
-  - Staying  
-  - Churning  
-- See risk level (Low / Medium / High)
+* Predictions are probabilistic, not guaranteed
+* Small differences between models (~0.003 ROC-AUC)
+* Performance depends on available features
 
----
+⸻
 
-# How to Run
+🚀 Future Improvements
 
-1. Clone the repository:
-git clone <your-repo-link> cd Customer-Churn-Prediction
+* Hyperparameter tuning for XGBoost
+* Cross-validation for stronger evaluation
+* Add model explainability (feature contribution)
+* Improve UI with analytics dashboard
 
-2. Install dependencies:
-pip install -r requirements.txt
+⸻
 
-3. Run the app:
-python app.py
+📌 Conclusion
 
-4. Open in browser:
-http://127.0.0.1:5000/
+This project demonstrates a complete ML workflow:
 
----
-
-# Limitations
-- Model predictions are probabilistic, not exact  
-- Some non-churn customers may be predicted as churn (false positives)  
-- Performance depends on available features in dataset  
-
----
-
-# Future Improvements
-- Try advanced models (XGBoost, LightGBM)  
-- Hyperparameter tuning  
-- Add explainability (feature contributions per prediction)  
-- Improve UI with analytics dashboard  
-
----
-
-# Conclusion
-The model successfully captures key churn patterns such as:
-- early-stage customers  
-- high charges  
-- lack of support services  
-
-This makes it useful for real-world customer retention strategies.
+* Data cleaning
+* Feature engineering
+* Multi-model comparison
+* Proper evaluation
+* Model deployment
